@@ -35,12 +35,18 @@ const centerContentStyle: React.CSSProperties = {
 
 // Inizializza Firebase con la tua chiave di configurazione
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID",
+
+  apiKey: "AIzaSyB4g24SBwUUm_lFYsrxEBi39SDqwfTea9I",
+
+  authDomain: "users-ada29.firebaseapp.com",
+
+  projectId: "users-ada29",
+
+  storageBucket: "users-ada29.appspot.com",
+
+  messagingSenderId: "557729412960",
+
+  appId: "1:557729412960:web:731e7fc972d4def6209005",
 };
 
 firebase.initializeApp(firebaseConfig);
