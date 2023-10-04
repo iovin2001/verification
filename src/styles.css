@@ -1,0 +1,43 @@
+/* my-custom-styles.css */
+
+@font-face {
+  font-family: myFirstFont;
+  src: url(./OPTICopperplate.otf);
+}
+
+body{
+  margin: 0;
+  padding: 0;
+  background-color: #8bcde5;
+}
+
+.myButton {
+  position: relative;
+  background-color: transparent;
+  border-radius:  #fff; /* Usa la variabile per il border radius */
+  border: 2px solid  #fff; /* Usa la variabile per il colore del bordo */
+  display: inline-block;
+  cursor: pointer;
+  color: #fff; /* Usa la variabile per il colore del testo */
+  font-family: myFirstFont; /* Usa la variabile per il font-family */
+  font-size: 17px;
+  padding: 8px 28px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #fff; /* Usa la variabile per il colore dell'ombra del testo */
+}
+
+.myButton:hover {
+  background-color: transparent;
+}
+
+.myButton:active {
+  position: relative;
+  top: 1px;
+}
+
+
+h1{
+  color: #fff;
+  font-size: 20px;
+  font-family: myFirstFont;
+}
