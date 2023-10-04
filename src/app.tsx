@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import queryString from 'query-string';
 import { WalletProvider, useWallet, ConnectButton } from '@suiet/wallet-kit';
 import '@suiet/wallet-kit/style.css';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
+
 // Inizializza Firebase con la tua chiave di configurazione
 const firebaseConfig = {
-  apiKey: "AIzaSyB4g24SBwUUm_lFYsrxEBi39SDqwfTea9I",
-  authDomain: "users-ada29.firebaseapp.com",
-  projectId: "users-ada29",
-  storageBucket: "users-ada29.appspot.com",
-  messagingSenderId: "557729412960",
-  appId: "1:557729412960:web:731e7fc972d4def6209005",
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID",
 };
 
 const centerContentStyle: React.CSSProperties = {
@@ -22,7 +23,6 @@ const centerContentStyle: React.CSSProperties = {
   justifyContent: 'center',
   height: '100vh',
 };
-
 
 firebase.initializeApp(firebaseConfig);
 
@@ -38,23 +38,11 @@ function App() {
   const userParam = queryString.parse(window.location.search).user;
   const user = typeof userParam === 'string' ? hexToText(userParam) : '';
   const wallet = useWallet();
-  console.log("ok");
-  useEffect(() => {
-    if (wallet.connected) {
-      console.log('Connected wallet name:', wallet.name);
-      console.log("prima");
-      uploadDataToFirestore([{ address: wallet.account?.address, name: user }]);
-      console.log("dopo");
-    }
-  }, [wallet.connected, user]);
-
-
+  const [dataUploaded, setDataUploaded] = useState(false);
 
   const uploadDataToFirestore = async (userData) => {
-    console.log("dentro");
     const db = firebase.firestore();
     const usersRef = db.collection('users');
-    console.log("userData:", userData);
 
     userData.forEach(async ({ address, name }) => {
       try {
@@ -68,7 +56,19 @@ function App() {
         console.error('Error adding document: ', error);
       }
     });
+
+    setDataUploaded(true); // Imposta il flag quando i dati sono stati caricati
   };
+
+  // L'upload dei dati verrà effettuato solo quando il wallet è connesso e i dati non sono ancora stati caricati
+  if (wallet.connected && !dataUploaded) {
+    console.log('Connected wallet name:', wallet.name);
+    console.log('Account address:', wallet.account?.address);
+    console.log('Firestore data upload started.');
+    console.log('Firestore data upload started.');
+    uploadDataToFirestore([{ address: wallet.account?.address, name: user }]);
+    console.log('Firestore data upload completed.');
+  }
 
   return (
     <div style={centerContentStyle}>
@@ -85,16 +85,6 @@ function App() {
 
 function WalletComponent({ user }: { user: string }) {
   const wallet = useWallet();
-
-  useEffect(() => {
-    if (wallet.connected) {
-      console.log('Connected wallet name:', wallet.name);
-      console.log('Account address:', wallet.account?.address);
-      console.log('Account publicKey:', wallet.account?.publicKey);
-      console.log('Firestore data upload started.');
-      console.log('Firestore data upload completed.');
-    }
-  }, [wallet.connected, user]);
 
   return (
     <div>
