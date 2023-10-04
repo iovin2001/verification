@@ -1,12 +1,10 @@
-
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import queryString from 'query-string';
 import { WalletProvider, useWallet, ConnectButton } from '@suiet/wallet-kit';
-import axios from 'axios';
 import '@suiet/wallet-kit/style.css';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
 
 
 
@@ -34,7 +32,7 @@ const firebaseConfig = {
   messagingSenderId: "557729412960",
 
   appId: "1:557729412960:web:731e7fc972d4def6209005",
-
+};
 
 firebase.initializeApp(firebaseConfig);
 
