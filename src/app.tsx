@@ -11,6 +11,16 @@ import 'firebase/firestore';
 
 
 
+
+const centerContentStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: '100vh',
+};
+
+
 // Inizializza Firebase con la tua chiave di configurazione
 const firebaseConfig = {
 
