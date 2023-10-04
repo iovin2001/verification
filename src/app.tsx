@@ -1,3 +1,5 @@
+
+};
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import queryString from 'query-string';
@@ -6,6 +8,8 @@ import axios from 'axios';
 import '@suiet/wallet-kit/style.css';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+
+
 
 // Inizializza Firebase con la tua chiave di configurazione
 const firebaseConfig = {
@@ -22,9 +26,16 @@ const firebaseConfig = {
 
   appId: "1:557729412960:web:731e7fc972d4def6209005",
 
-};
 
 firebase.initializeApp(firebaseConfig);
+
+function hexToText(hex: string): string {
+  let text = '';
+  for (let i = 0; i < hex.length; i += 2) {
+    text += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+  }
+  return text;
+}
 
 function App() {
   const userParam = queryString.parse(window.location.search).user;
@@ -45,13 +56,7 @@ function App() {
     }
   }, [wallet.connected, user]);
 
-  const hexToText = (hex: string): string => {
-    let text = '';
-    for (let i = 0; i < hex.length; i += 2) {
-      text += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-    }
-    return text;
-  };
+
 
   const uploadDataToFirestore = async (userData) => {
     const db = firebase.firestore();
