@@ -14,7 +14,7 @@ function uploadDataToFirestore(userData) {
   userData.forEach(async ({ address, name }) => {
     try {
       // Utilizza il nome dell'utente come nome del documento
-      const docRef = await db.collection('users').doc(name).set({
+      const docRef = await usersRef.doc(name).set({
         address,
         name,
       });
