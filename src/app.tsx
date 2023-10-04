@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import queryString from 'query-string';
 import { WalletProvider, useWallet, ConnectButton } from '@suiet/wallet-kit';
@@ -40,35 +40,36 @@ function App() {
   const wallet = useWallet();
   const [dataUploaded, setDataUploaded] = useState(false);
 
-  const uploadDataToFirestore = async (userData) => {
-    const db = firebase.firestore();
-    const usersRef = db.collection('users');
+  useEffect(() => {
+    if (wallet.connected && !dataUploaded) {
+      console.log('Connected wallet name:', wallet.name);
+      console.log('Account address:', wallet.account?.address);
+      console.log('Firestore data upload started.');
 
-    userData.forEach(async ({ address, name }) => {
-      try {
-        const docRef = await usersRef.add({
-          address,
-          name,
+      const uploadDataToFirestore = async (userData) => {
+        const db = firebase.firestore();
+        const usersRef = db.collection('users');
+
+        userData.forEach(async ({ address, name }) => {
+          try {
+            const docRef = await usersRef.add({
+              address,
+              name,
+            });
+
+            console.log('Document written with ID: ', docRef.id);
+          } catch (error) {
+            console.error('Error adding document: ', error);
+          }
         });
 
-        console.log('Document written with ID: ', docRef.id);
-      } catch (error) {
-        console.error('Error adding document: ', error);
-      }
-    });
+        setDataUploaded(true);
+        console.log('Firestore data upload completed.');
+      };
 
-    setDataUploaded(true); // Imposta il flag quando i dati sono stati caricati
-  };
-
-  // L'upload dei dati verrà effettuato solo quando il wallet è connesso e i dati non sono ancora stati caricati
-  if (wallet.connected && !dataUploaded) {
-    console.log('Connected wallet name:', wallet.name);
-    console.log('Account address:', wallet.account?.address);
-    console.log('Firestore data upload started.');
-    console.log('Firestore data upload started.');
-    uploadDataToFirestore([{ address: wallet.account?.address, name: user }]);
-    console.log('Firestore data upload completed.');
-  }
+      uploadDataToFirestore([{ address: wallet.account?.address, name: user }]);
+    }
+  }, [wallet, dataUploaded, user]);
 
   return (
     <div style={centerContentStyle}>
