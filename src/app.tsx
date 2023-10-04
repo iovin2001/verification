@@ -6,6 +6,9 @@ import '@suiet/wallet-kit/style.css';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
+
+
+
 const centerContentStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
@@ -14,13 +17,20 @@ const centerContentStyle: React.CSSProperties = {
   height: '100vh',
 };
 
+
 // Inizializza Firebase con la tua chiave di configurazione
 const firebaseConfig = {
+
   apiKey: "AIzaSyB4g24SBwUUm_lFYsrxEBi39SDqwfTea9I",
+
   authDomain: "users-ada29.firebaseapp.com",
+
   projectId: "users-ada29",
+
   storageBucket: "users-ada29.appspot.com",
+
   messagingSenderId: "557729412960",
+
   appId: "1:557729412960:web:731e7fc972d4def6209005",
 };
 
@@ -44,15 +54,17 @@ function App() {
       console.log('Connected wallet name:', wallet.name);
       console.log('Account address:', wallet.account?.address);
       console.log('Account publicKey:', wallet.account?.publicKey);
-      console.log("carico");
 
       // Inserisci l'utente nel database Firestore se non esiste già
       if (wallet.account?.address) {
+        console.log("carico");
         // Chiamata alla funzione per caricare i dati in Firestore
         uploadDataToFirestore([{ address: wallet.account.address, name: user }]);
       }
     }
   }, [wallet.connected, user]);
+
+
 
   const uploadDataToFirestore = async (userData) => {
     const db = firebase.firestore();
@@ -94,8 +106,13 @@ function WalletComponent({ user }: { user: string }) {
       console.log('Account address:', wallet.account?.address);
       console.log('Account publicKey:', wallet.account?.publicKey);
       console.log("ok");
+      if (wallet.account?.address) {
+        console.log("carico");
+        // Chiamata alla funzione per caricare i dati in Firestore
+        uploadDataToFirestore([{ address: wallet.account.address, name: user }]);
+      }
     }
-  }, [wallet.connected]);
+  }, [wallet.connected, user]);
 
   return (
     <div>
@@ -108,3 +125,7 @@ function WalletComponent({ user }: { user: string }) {
 }
 
 export default App;
+function uploadDataToFirestore(arg0: { address: string; name: string; }[]) {
+  throw new Error('Function not implemented.');
+}
+
