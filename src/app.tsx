@@ -100,13 +100,7 @@ function App() {
 function WalletComponent({ user }: { user: string }) {
   const wallet = useWallet();
 
-  useEffect(() => {
-    if (wallet.connected) {
-      console.log('Connected wallet name:', wallet.name);
-      console.log('Account address:', wallet.account?.address);
-      console.log('Account publicKey:', wallet.account?.publicKey);
-    }
-  }, [wallet.connected]);
+
 
   return (
     <div>
