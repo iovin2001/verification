@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import queryString from 'query-string';
 import { WalletProvider, useWallet, ConnectButton } from '@suiet/wallet-kit';
@@ -6,8 +6,24 @@ import '@suiet/wallet-kit/style.css';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
+// Definizione della funzione uploadDataToFirestore
+function uploadDataToFirestore(userData) {
+  const db = firebase.firestore();
+  const usersRef = db.collection('users');
 
+  userData.forEach(async ({ address, name }) => {
+    try {
+      const docRef = await usersRef.add({
+        address,
+        name,
+      });
 
+      console.log('Document written with ID: ', docRef.id);
+    } catch (error) {
+      console.error('Error adding document: ', error);
+    }
+  });
+}
 
 const centerContentStyle: React.CSSProperties = {
   display: 'flex',
@@ -17,21 +33,14 @@ const centerContentStyle: React.CSSProperties = {
   height: '100vh',
 };
 
-
 // Inizializza Firebase con la tua chiave di configurazione
 const firebaseConfig = {
-
-  apiKey: "AIzaSyB4g24SBwUUm_lFYsrxEBi39SDqwfTea9I",
-
-  authDomain: "users-ada29.firebaseapp.com",
-
-  projectId: "users-ada29",
-
-  storageBucket: "users-ada29.appspot.com",
-
-  messagingSenderId: "557729412960",
-
-  appId: "1:557729412960:web:731e7fc972d4def6209005",
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID",
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -63,26 +72,6 @@ function App() {
       }
     }
   }, [wallet.connected, user]);
-
-
-
-  const uploadDataToFirestore = async (userData) => {
-    const db = firebase.firestore();
-    const usersRef = db.collection('users');
-
-    userData.forEach(async ({ address, name }) => {
-      try {
-        const docRef = await usersRef.add({
-          address,
-          name,
-        });
-
-        console.log('Document written with ID: ', docRef.id);
-      } catch (error) {
-        console.error('Error adding document: ', error);
-      }
-    });
-  };
 
   return (
     <div style={centerContentStyle}>
@@ -125,7 +114,3 @@ function WalletComponent({ user }: { user: string }) {
 }
 
 export default App;
-function uploadDataToFirestore(arg0: { address: string; name: string; }[]) {
-  throw new Error('Function not implemented.');
-}
-
