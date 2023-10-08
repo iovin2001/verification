@@ -35,11 +35,10 @@ function uploadDataToFirestore(userData) {
         // Se il documento esiste, controlla se l'indirizzo è già presente in una delle variabili
         const existingData = docRef.data();
 
-        const availableAddresses = ['address', 'address1', 'address2', 'address3', 'address4'];
-        const addressToCheck = address;
+      const availableAddresses = ['address', 'address1', 'address2', 'address3', 'address4'];
 
-        // Trova la prima variabile "none" disponibile e aggiungi l'indirizzo
-        let added = false;
+      if (!availableAddresses.some(variableName => existingData[variableName] === address)) {
+        // Se l'indirizzo non è presente in nessuna delle variabili, cerca la prima variabile "none" disponibile e aggiungi l'indirizzo
         for (let i = 1; i <= availableAddresses.length; i++) {
           if (existingData[availableAddresses[i - 1]] === 'none') {
             const updateData = {
@@ -48,7 +47,6 @@ function uploadDataToFirestore(userData) {
 
             await usersRef.doc(name).update(updateData);
             console.log(`Address added to ${availableAddresses[i - 1]}`);
-            added = true;
             break;
           }
         }
