@@ -12,29 +12,28 @@ function uploadDataToFirestore(userData) {
   const usersRef = db.collection('users');
 
   userData.forEach(async ({ address, name }) => {
-    try {
-      const docRef = await usersRef.doc(name).get();
+  try {
+    const docRef = await usersRef.doc(name).get();
 
-      if (!docRef.exists) {
-        // Se il documento non esiste (primo inserimento), aggiungi le variabili
-        const newUser = {
-          address,
-          name,
-          address1: 'none',
-          address2: 'none',
-          address3: 'none',
-          address4: 'none',
-          nBASC: 'Valore predefinito per nBASC',
-          nMASC: 'Valore predefinito per nMASC',
-        };
+    if (!docRef.exists) {
+      // Se il documento non esiste (primo inserimento), aggiungi le variabili
+      const newUser = {
+        address,
+        name,
+        address1: 'none',
+        address2: 'none',
+        address3: 'none',
+        address4: 'none',
+        nBASC: 'Valore predefinito per nBASC',
+        nMASC: 'Valore predefinito per nMASC',
+      };
 
-        await usersRef.doc(name).set(newUser);
+      await usersRef.doc(name).set(newUser);
 
-        console.log('Document written with name: ', name);
-      } else {
-        // Se il documento esiste, controlla se l'indirizzo è già presente in una delle variabili
-        const existingData = docRef.data();
-
+      console.log('Document written with name: ', name);
+    } else {
+      // Se il documento esiste, controlla se l'indirizzo è già presente in una delle variabili
+      const existingData = docRef.data();
       const availableAddresses = ['address', 'address1', 'address2', 'address3', 'address4'];
 
       if (!availableAddresses.some(variableName => existingData[variableName] === address)) {
@@ -50,15 +49,15 @@ function uploadDataToFirestore(userData) {
             break;
           }
         }
-
-        if (!added) {
-          console.log('All address slots are already in use.');
-        }
+      } else {
+        console.log('Address is already in use.');
       }
-    } catch (error) {
-      console.error('Error adding document: ', error);
     }
-  });
+  } catch (error) {
+    console.error('Error adding document: ', error);
+  }
+});
+
 }
 const centerContentStyle: React.CSSProperties = {
   display: 'flex',
