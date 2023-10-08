@@ -105,37 +105,7 @@ function WalletComponent({ user }: { user: string }) {
       if (wallet.account?.address) {
         console.log("carico");
         // Chiamata alla funzione per caricare i dati in Firestore
-        async function uploadDataToFirestore(userData) {
-  const db = firebase.firestore();
-  const usersRef = db.collection('users');
-
-  userData.forEach(async ({ address, name }) => {
-    try {
-      // Utilizza il nome dell'utente come nome del documento
-      const docRef = await usersRef.doc(name).get();
-
-      if (!docRef.exists) {
-        // Se il documento non esiste (primo inserimento), aggiungi le variabili
-        await usersRef.doc(name).set({
-          address,
-          name,
-          address1: 'none',
-          address2: 'none',
-          address3: 'none',
-          address4: 'none',
-          nBASC: 'Valore predefinito per nBASC',
-          nMASC: 'Valore predefinito per nMASC',
-        });
-
-        console.log('Document written with name: ', name);
-      } else {
-        console.log('Document already exists with name: ', name);
-      }
-    } catch (error) {
-      console.error('Error adding document: ', error);
-    }
-  });
-}
+        uploadDataToFirestore([{ address: wallet.account.address, name: user }]);
       }
     }
   }, [wallet.connected, user]);
@@ -149,5 +119,3 @@ function WalletComponent({ user }: { user: string }) {
     </div>
   );
 }
-
-export default App;
