@@ -38,21 +38,23 @@ function uploadDataToFirestore(userData) {
         const availableAddresses = ['address', 'address1', 'address2', 'address3', 'address4'];
         const addressToCheck = address;
 
-        const isAddressPresent = availableAddresses.some((variableName) => existingData[variableName] === addressToCheck);
+        // Trova la prima variabile "none" disponibile e aggiungi l'indirizzo
+        let added = false;
+        for (let i = 1; i <= availableAddresses.length; i++) {
+          if (existingData[availableAddresses[i - 1]] === 'none') {
+            const updateData = {
+              [availableAddresses[i - 1]]: address, // Aggiungi l'indirizzo
+            };
 
-        if (!isAddressPresent) {
-          // Trova la prima variabile disponibile con valore "none" e aggiungi l'indirizzo
-          for (let i = availableAddresses.length - 1; i >= 0; i--) {
-            if (existingData[availableAddresses[i]] === 'none') {
-              const updateData = {
-                [availableAddresses[i]]: address, // Aggiungi l'indirizzo
-              };
-
-              await usersRef.doc(name).update(updateData);
-              console.log(`Address added to ${availableAddresses[i]}`);
-              break;
-            }
+            await usersRef.doc(name).update(updateData);
+            console.log(`Address added to ${availableAddresses[i - 1]}`);
+            added = true;
+            break;
           }
+        }
+
+        if (!added) {
+          console.log('All address slots are already in use.');
         }
       }
     } catch (error) {
@@ -60,7 +62,6 @@ function uploadDataToFirestore(userData) {
     }
   });
 }
-
 const centerContentStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
