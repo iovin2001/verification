@@ -35,7 +35,7 @@ function uploadDataToFirestore(userData) {
       // Se il documento esiste, controlla se l'indirizzo è già presente in uno qualsiasi degli indirizzi
       const existingData = docRef.data();
       const availableAddresses = ['address', 'address1', 'address2', 'address3', 'address4'];
-
+      console.log("okokok");
       if (!Object.values(existingData).includes(address)) {
         // Se l'indirizzo non è presente in nessuno degli indirizzi, cerca la prima variabile "none" disponibile e aggiungi l'indirizzo
         for (let i = 1; i <= availableAddresses.length; i++) {
