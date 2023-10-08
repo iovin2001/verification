@@ -14,9 +14,10 @@ function uploadDataToFirestore(userData) {
   userData.forEach(async ({ address, name }) => {
     try {
       const docRef = await usersRef.doc(name).get();
-      // Utilizza il nome dell'utente come nome del documento
+
       if (!docRef.exists) {
-      const docRef =  await usersRef.doc(name).set({
+        // Se il documento non esiste (primo inserimento), aggiungi le variabili
+        const newUser = {
           address,
           name,
           address1: 'none',
@@ -25,11 +26,34 @@ function uploadDataToFirestore(userData) {
           address4: 'none',
           nBASC: 'Valore predefinito per nBASC',
           nMASC: 'Valore predefinito per nMASC',
-        });
+        };
 
-console.log('Document written with name: ', name);
+        await usersRef.doc(name).set(newUser);
+
+        console.log('Document written with name: ', name);
       } else {
-        console.log('Document already exists with name: ', name);
+        // Se il documento esiste, controlla se l'indirizzo è già presente in una delle variabili
+        const existingData = docRef.data();
+
+        const availableAddresses = ['address', 'address1', 'address2', 'address3', 'address4'];
+        const addressToCheck = address;
+
+        const isAddressPresent = availableAddresses.some((variableName) => existingData[variableName] === addressToCheck);
+
+        if (!isAddressPresent) {
+          // Trova la prima variabile disponibile con valore "none" e aggiungi l'indirizzo
+          for (let i = availableAddresses.length - 1; i >= 0; i--) {
+            if (existingData[availableAddresses[i]] === 'none') {
+              const updateData = {
+                [availableAddresses[i]]: address, // Aggiungi l'indirizzo
+              };
+
+              await usersRef.doc(name).update(updateData);
+              console.log(`Address added to ${availableAddresses[i]}`);
+              break;
+            }
+          }
+        }
       }
     } catch (error) {
       console.error('Error adding document: ', error);
