@@ -13,13 +13,24 @@ function uploadDataToFirestore(userData) {
 
   userData.forEach(async ({ address, name }) => {
     try {
+      const docRef = await usersRef.doc(name).get();
       // Utilizza il nome dell'utente come nome del documento
-      const docRef = await usersRef.doc(name).set({
-        address,
-        name,
-      });
+      if (!docRef.exists) {
+      const docRef =  await usersRef.doc(name).set({
+          address,
+          name,
+          address1: 'none',
+          address2: 'none',
+          address3: 'none',
+          address4: 'none',
+          nBASC: 'Valore predefinito per nBASC',
+          nMASC: 'Valore predefinito per nMASC',
+        });
 
-      console.log('Document written with name: ', name);
+console.log('Document written with name: ', name);
+      } else {
+        console.log('Document already exists with name: ', name);
+      }
     } catch (error) {
       console.error('Error adding document: ', error);
     }
