@@ -1,121 +1,137 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import queryString from 'query-string';
-import { WalletProvider, useWallet, ConnectButton } from '@suiet/wallet-kit';
+import React, { useEffect, useState } from 'react';
 import '@suiet/wallet-kit/style.css';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
-// Definizione della funzione uploadDataToFirestore
-function uploadDataToFirestore(userData) {
-  const db = firebase.firestore();
-  const usersRef = db.collection('users');
-
-  userData.forEach(async ({ address, name }) => {
-    try {
-      // Utilizza il nome dell'utente come nome del documento
-      const docRef = await usersRef.doc(name).set({
-        address,
-        name,
-      });
-
-      console.log('Document written with name: ', name);
-    } catch (error) {
-      console.error('Error adding document: ', error);
-    }
-  });
-}
-
-const centerContentStyle: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: '100vh',
-};
-
-// Inizializza Firebase con la tua chiave di configurazione
 const firebaseConfig = {
-
-  apiKey: "AIzaSyB4g24SBwUUm_lFYsrxEBi39SDqwfTea9I",
-
-  authDomain: "users-ada29.firebaseapp.com",
-
-  projectId: "users-ada29",
-
-  storageBucket: "users-ada29.appspot.com",
-
-  messagingSenderId: "557729412960",
-
-  appId: "1:557729412960:web:731e7fc972d4def6209005",
+  // La tua configurazione Firebase
 };
 
-firebase.initializeApp(firebaseConfig);
-
-function hexToText(hex: string): string {
-  let text = '';
-  for (let i = 0; i < hex.length; i += 2) {
-    text += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-  }
-  return text;
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
 }
+
+const firestore = firebase.firestore();
 
 function App() {
-  const userParam = queryString.parse(window.location.search).user;
-  const user = typeof userParam === 'string' ? hexToText(userParam) : '';
-  const wallet = useWallet();
+  const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    if (wallet.connected) {
-      console.log('Connected wallet name:', wallet.name);
-      console.log('Account address:', wallet.account?.address);
-      console.log('Account publicKey:', wallet.account?.publicKey);
+    const fetchData = async () => {
+      try {
+        const usersRef = firestore.collection('users');
+        const snapshot = await usersRef.get();
 
-      // Inserisci l'utente nel database Firestore se non esiste già
-      if (wallet.account?.address) {
-        console.log("carico");
-        // Chiamata alla funzione per caricare i dati in Firestore
-        uploadDataToFirestore([{ address: wallet.account.address, name: user }]);
+        const usersData = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setData(usersData);
+        setLoading(false);
+      } catch (error) {
+        setError(error as Error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Funzione per controllare e aggiungere l'indirizzo se necessario
+  const checkAndAddAddress = async (addressToCheck) => {
+    const availableAddresses = ['address', 'address1', 'address2', 'address3', 'address4'];
+
+    // Verifica se l'indirizzo è già presente in una delle variabili
+    const isAddressPresent = availableAddresses.some((variableName) => data[0][variableName] === addressToCheck);
+
+    if (!isAddressPresent) {
+      // Trova la prima variabile disponibile e aggiungi l'indirizzo
+      for (let i = 0; i < availableAddresses.length; i++) {
+        if (!data[0][availableAddresses[i]]) {
+          const updateData = {
+            [availableAddresses[i]]: 'none', // Imposta su "none"
+          };
+
+          // Aggiungi l'indirizzo al documento
+          await firestore.collection('users').doc(data[0].id).update(updateData);
+
+          // Aggiorna lo stato locale
+          setData(prevData => ([{
+            ...prevData[0],
+            [availableAddresses[i]]: 'none',
+          }, ...prevData.slice(1)]));
+          break;
+        }
       }
     }
-  }, [wallet.connected, user]);
+  };
 
-  return (
-    <div style={centerContentStyle}>
-      <WalletProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<WalletComponent user={user} />} />
-          </Routes>
-        </Router>
-      </WalletProvider>
-    </div>
-  );
-}
+  // Funzione per aggiungere un nuovo utente con campi "address1", "address2", "address3", e "address4" inizializzati a "none"
+  const addNewUser = async (name, address) => {
+    try {
+      const usersRef = firestore.collection('users');
+      const newUser = {
+        name: name,
+        address: address,
+        address1: 'none',
+        address2: 'none',
+        address3: 'none',
+        address4: 'none',
+      };
 
-function WalletComponent({ user }: { user: string }) {
-  const wallet = useWallet();
+      // Aggiungi il nuovo utente al database
+      await usersRef.add(newUser);
 
-  useEffect(() => {
-    if (wallet.connected) {
-      console.log('Connected wallet name:', wallet.name);
-      console.log('Account address:', wallet.account?.address);
-      console.log('Account publicKey:', wallet.account?.publicKey);
-      console.log("ok");
-      if (wallet.account?.address) {
-        console.log("carico");
-        // Chiamata alla funzione per caricare i dati in Firestore
-        uploadDataToFirestore([{ address: wallet.account.address, name: user }]);
-      }
+      // Aggiorna lo stato locale
+      setData(prevData => ([newUser, ...prevData]));
+
+    } catch (error) {
+      setError(error as Error);
     }
-  }, [wallet.connected, user]);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div>
-      <h1 style={{ textAlign: 'center' }}>Welcome {user}</h1>
-      <ConnectButton style={{ textAlign: 'center' }} className="myButton">
-        Connect
-      </ConnectButton>
+      <h1>User Data</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Address</th>
+            <th>Name</th>
+            <th>Address1</th>
+            <th>Address2</th>
+            <th>Address3</th>
+            <th>Address4</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map(user => (
+            <tr key={user.id}>
+              <td>{user.address}</td>
+              <td>{user.name}</td>
+              <td>{user.address1}</td>
+              <td>{user.address2}</td>
+              <td>{user.address3}</td>
+              <td>{user.address4}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {/* Esempio di come aggiungere un nuovo utente */}
+      <button onClick={() => addNewUser("Nuovo Nome", "Nuovo Address")}>
+        Aggiungi Nuovo Utente
+      </button>
     </div>
   );
 }
