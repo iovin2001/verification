@@ -11,7 +11,7 @@ function uploadDataToFirestore(userData) {
   const db = firebase.firestore();
   const usersRef = db.collection('users');
 
-  userData.forEach(async ({ address, name }) => {
+ userData.forEach(async ({ address, name }) => {
   try {
     const docRef = await usersRef.doc(name).get();
 
