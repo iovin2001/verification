@@ -119,3 +119,5 @@ function WalletComponent({ user }: { user: string }) {
     </div>
   );
 }
+
+export default App;
