@@ -26,6 +26,7 @@ function uploadDataToFirestore(userData) {
         address4: 'none',
         nBASC: 'Valore predefinito per nBASC',
         nMASC: 'Valore predefinito per nMASC',
+        stake: 'false',
       };
 
       await usersRef.doc(name).set(newUser);
