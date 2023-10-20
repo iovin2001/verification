@@ -7,13 +7,13 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
 // Definizione della funzione uploadDataToFirestore
-function uploadDataToFirestore(userData) {
+function uploadDataToFirestore(userData, docName) {
   const db = firebase.firestore();
   const usersRef = db.collection('users');
 
- userData.forEach(async ({ address, name }) => {
-  try {
-    const docRef = await usersRef.doc(name).get();
+  userData.forEach(async ({ address, name }) => {
+    try {
+      const docRef = await usersRef.doc(docName).get();
 
     if (!docRef.exists) {
       // Se il documento non esiste (primo inserimento), aggiungi le variabili
@@ -55,13 +55,12 @@ function uploadDataToFirestore(userData) {
         console.log('Address is already in use.');
       }
     }
-  } catch (error) {
-    console.error('Error adding document: ', error);
-  }
-});
-
-
+ } catch (error) {
+      console.error('Error adding document: ', error);
+    }
+  });
 }
+
 const centerContentStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
@@ -71,6 +70,7 @@ const centerContentStyle: React.CSSProperties = {
 };
 
 // Inizializza Firebase con la tua chiave di configurazione
+
 const firebaseConfig = {
 
   apiKey: "AIzaSyB4g24SBwUUm_lFYsrxEBi39SDqwfTea9I",
@@ -84,6 +84,9 @@ const firebaseConfig = {
   messagingSenderId: "557729412960",
 
   appId: "1:557729412960:web:731e7fc972d4def6209005",
+
+  measurementId: "G-3TJE8KN6K3"
+
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -97,8 +100,12 @@ function hexToText(hex: string): string {
 }
 
 function App() {
-  const userParam = queryString.parse(window.location.search).user;
+  const queryParams = queryString.parse(window.location.search);
+  const userParam = queryParams.user;
+  const idParam = queryParams.ID;
   const user = typeof userParam === 'string' ? hexToText(userParam) : '';
+  const docName = typeof idParam === 'string' ? hexToText(idParam) : user; // Utilizza ID come nome del documento o fallback su user
+
   const wallet = useWallet();
 
   useEffect(() => {
@@ -109,9 +116,9 @@ function App() {
 
       // Inserisci l'utente nel database Firestore se non esiste già
       if (wallet.account?.address) {
-        console.log("carico");
-        // Chiamata alla funzione per caricare i dati in Firestore
-        uploadDataToFirestore([{ address: wallet.account.address, name: user }]);
+        console.log('carico');
+        // Chiamata alla funzione per caricare i dati in Firestore utilizzando docName come nome del documento
+        uploadDataToFirestore([{ address: wallet.account.address, name: user }], docName);
       }
     }
   }, [wallet.connected, user]);
