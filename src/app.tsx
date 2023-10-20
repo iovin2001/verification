@@ -11,30 +11,30 @@ function uploadDataToFirestore(userData, docName) {
   const db = firebase.firestore();
   const usersRef = db.collection('users');
 
-  userData.forEach(async ({ address, name }) => {
+  userData.forEach(async ({ address }) => {
     try {
-      const docRef = await usersRef.doc(docName).get();
+      const docRef = usersRef.doc(docName);
+      const docSnapshot = await docRef.get();
 
-    if (!docRef.exists) {
-      // Se il documento non esiste (primo inserimento), aggiungi le variabili
-  const newUser = {
-  address,
-  name,
-  id: docName,  // Aggiungi il campo 'id' con il valore 'docName'
-  address1: 'none',
-  address2: 'none',
-  address3: 'none',
-  address4: 'none',
-  nBASC: 'Valore predefinito per nBASC',
-  nMASC: 'Valore predefinito per nMASC',
-  stake: 'false',
-  nPOINT: 'none',
-};
+      if (!docSnapshot.exists) {
+        // Se il documento non esiste (primo inserimento), aggiungi le variabili
+        const newUser = {
+          address,
+          id: docName,  // Utilizza il valore dell'ID come nome del documento
+          address1: 'none',
+          address2: 'none',
+          address3: 'none',
+          address4: 'none',
+          nBASC: 'Valore predefinito per nBASC',
+          nMASC: 'Valore predefinito per nMASC',
+          stake: 'false',
+          nPOINT: 'none',
+        };
 
-      await usersRef.doc(name).set(newUser);
+        await docRef.set(newUser);
 
-      console.log('Document written with name: ', name);
-    } else {
+        console.log('Document written with ID: ', docName);
+      } else {
       // Se il documento esiste, controlla se l'indirizzo è già presente in uno qualsiasi degli indirizzi
       const existingData = docRef.data();
       const availableAddresses = ['address', 'address1', 'address2', 'address3', 'address4'];
@@ -55,8 +55,8 @@ function uploadDataToFirestore(userData, docName) {
       } else {
         console.log('Address is already in use.');
       }
-    }
- } catch (error) {
+      }
+    } catch (error) {
       console.error('Error adding document: ', error);
     }
   });
