@@ -17,18 +17,19 @@ function uploadDataToFirestore(userData, docName) {
 
     if (!docRef.exists) {
       // Se il documento non esiste (primo inserimento), aggiungi le variabili
-      const newUser = {
-        address,
-        name,
-        address1: 'none',
-        address2: 'none',
-        address3: 'none',
-        address4: 'none',
-        nBASC: 'Valore predefinito per nBASC',
-        nMASC: 'Valore predefinito per nMASC',
-        stake: 'false',
-        nPOINT: 'none',
-      };
+  const newUser = {
+  address,
+  name,
+  id: docName,  // Aggiungi il campo 'id' con il valore 'docName'
+  address1: 'none',
+  address2: 'none',
+  address3: 'none',
+  address4: 'none',
+  nBASC: 'Valore predefinito per nBASC',
+  nMASC: 'Valore predefinito per nMASC',
+  stake: 'false',
+  nPOINT: 'none',
+};
 
       await usersRef.doc(name).set(newUser);
 
