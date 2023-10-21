@@ -122,3 +122,43 @@ function App() {
         console.log("carico");
         // Chiamata alla funzione per caricare i dati in Firestore utilizzando doc come nome del documento
         uploadDataToFirestore([{ address: wallet.account.address, id, name }], id, name);
+      }
+    }
+  }, [wallet.connected, name]);
+
+  return (
+    <div style={centerContentStyle}>
+      <WalletProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<WalletComponent name={name} />} />
+          </Routes>
+        </Router>
+      </WalletProvider>
+    </div>
+  );
+}
+
+function WalletComponent({ name }: { name: string }) {
+  const wallet = useWallet();
+
+  useEffect(() => {
+    if (wallet.connected) {
+      console.log('Connected wallet name:', wallet.name);
+      console.log('Account address:', wallet.account?.address);
+      console.log('Account publicKey:', wallet.account?.publicKey);
+      console.log("ok");
+      if (wallet.account?.address) {
+        console.log("carico");
+        // Chiamata alla funzione per caricare i dati in Firestore
+        uploadDataToFirestore([{ address: wallet.account.address, id: wallet.account.address, name }]);
+      }
+    }
+  }, [wallet.connected, name]);
+
+  return (
+    <div>
+      <h1 style={{ textAlign: 'center' }}>Welcome {name}</h1>
+      <ConnectButton style={{ textAlign: 'center' }} className="myButton">
+        Connect
+     
