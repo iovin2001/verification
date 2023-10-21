@@ -144,7 +144,7 @@ function App() {
   );
 }
 
-function WalletComponent({ name }: { name: string }) {
+function WalletComponent({ name, id }: { name: string, id: string }) {
   const wallet = useWallet();
 
   useEffect(() => {
@@ -156,11 +156,10 @@ function WalletComponent({ name }: { name: string }) {
       if (wallet.account?.address) {
         console.log("carico");
         // Chiamata alla funzione per caricare i dati in Firestore
-        uploadDataToFirestore([{ address: wallet.account.address, id: id, name: name }]);
-
+        uploadDataToFirestore(id, name);
       }
     }
-  }, [wallet.connected, name]);
+  }, [wallet.connected, name, id]);
 
   return (
     <div>
@@ -171,5 +170,4 @@ function WalletComponent({ name }: { name: string }) {
     </div>
   );
 }
-
 export default App;
