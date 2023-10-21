@@ -7,12 +7,11 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
 // Definizione della funzione uploadDataToFirestore
-async function uploadDataToFirestore( docName, id, name) {
-  
-  console.log(docName);
+async function uploadDataToFirestore(id, address, name) {
   console.log(id);
+  console.log(address);
   console.log(name);
-  if (!docName || !id || !name) {
+  if (!id || !address || !name) {
     console.error('Invalid data');
     return;
   }
@@ -20,61 +19,54 @@ async function uploadDataToFirestore( docName, id, name) {
   const db = firebase.firestore();
   const usersRef = db.collection('users');
 
-  userData.forEach(async ({ address }) => {
-    if (!address) {
-      console.error('Invalid address');
-      return;
-    }
+  try {
+    const docRef = usersRef.doc(id);
+    const docSnapshot = await docRef.get();
 
-    try {
-      const docRef = usersRef.doc(docName);
-      const docSnapshot = await docRef.get();
+    if (!docSnapshot.exists) {
+      // Se il documento non esiste (primo inserimento), aggiungi le variabili
+      const newUser = {
+        id,
+        address,
+        name,
+        address1: 'none',
+        address2: 'none',
+        address3: 'none',
+        address4: 'none',
+        nBASC: 'Valore predefinito per nBASC',
+        nMASC: 'Valore predefinito per nMASC',
+        stake: 'false',
+        nPOINT: 'none',
+      };
 
-      if (!docSnapshot.exists) {
-        // Se il documento non esiste (primo inserimento), aggiungi le variabili
-        const newUser = {
-          address,
-          id,
-          name,
-          address1: 'none',
-          address2: 'none',
-          address3: 'none',
-          address4: 'none',
-          nBASC: 'Valore predefinito per nBASC',
-          nMASC: 'Valore predefinito per nMASC',
-          stake: 'false',
-          nPOINT: 'none',
-        };
+      await docRef.set(newUser);
 
-        await docRef.set(newUser);
+      console.log('Document written with ID: ', id);
+    } else {
+      // Se il documento esiste, controlla se l'indirizzo è già presente in uno qualsiasi degli indirizzi
+      const existingData = docSnapshot.data();
+      const availableAddresses = ['address', 'address1', 'address2', 'address3', 'address4'];
 
-        console.log('Document written with ID: ', docName);
-      } else {
-        // Se il documento esiste, controlla se l'indirizzo è già presente in uno qualsiasi degli indirizzi
-        const existingData = docSnapshot.data();
-        const availableAddresses = ['address', 'address1', 'address2', 'address3', 'address4'];
-        console.log("okokok");
-        if (!Object.values(existingData).includes(address)) {
-          // Se l'indirizzo non è presente in nessuno degli indirizzi, cerca la prima variabile "none" disponibile e aggiungi l'indirizzo
-          for (let i = 1; i <= availableAddresses.length; i++) {
-            if (existingData[availableAddresses[i - 1]] === 'none') {
-              const updateData = {
-                [availableAddresses[i - 1]]: address, // Aggiungi l'indirizzo
-              };
+      if (!Object.values(existingData).includes(address)) {
+        // Se l'indirizzo non è presente in nessuno degli indirizzi, cerca la prima variabile "none" disponibile e aggiungi l'indirizzo
+        for (let i = 1; i <= availableAddresses.length; i++) {
+          if (existingData[availableAddresses[i - 1]] === 'none') {
+            const updateData = {
+              [availableAddresses[i - 1]]: address, // Aggiungi l'indirizzo
+            };
 
-              await docRef.update(updateData);
-              console.log(`Address added to ${availableAddresses[i - 1]}`);
-              break;
-            }
+            await docRef.update(updateData);
+            console.log(`Address added to ${availableAddresses[i - 1]}`);
+            break;
           }
-        } else {
-          console.error('Address is already in use.');
         }
+      } else {
+        console.error('Address is already in use.');
       }
-    } catch (error) {
-      console.error('Error adding document: ', error);
     }
-  });
+  } catch (error) {
+    console.error('Error adding document: ', error);
+  }
 }
 
 const centerContentStyle: React.CSSProperties = {
@@ -124,12 +116,11 @@ function App() {
       // Inserisci l'utente nel database Firestore se non esiste già
       if (wallet.account?.address) {
         console.log("carico");
-        // Chiamata alla funzione per caricare i dati in Firestore utilizzando doc come nome del documento
-        uploadDataToFirestore([{ address: wallet.account.address, id: id, name: name }]);
-
+        // Chiamata alla funzione per caricare i dati in Firestore
+        uploadDataToFirestore(id, wallet.account.address, name);
       }
     }
-  }, [wallet.connected, name]);
+  }, [wallet.connected, name, id]);
 
   return (
     <div style={centerContentStyle}>
@@ -144,30 +135,4 @@ function App() {
   );
 }
 
-function WalletComponent({ name, id }: { name: string, id: string }) {
-  const wallet = useWallet();
-
-  useEffect(() => {
-    if (wallet.connected) {
-      console.log('Connected wallet name:', wallet.name);
-      console.log('Account address:', wallet.account?.address);
-      console.log('Account publicKey:', wallet.account?.publicKey);
-      console.log("ok");
-      if (wallet.account?.address) {
-        console.log("carico");
-        // Chiamata alla funzione per caricare i dati in Firestore
-        uploadDataToFirestore(id, name);
-      }
-    }
-  }, [wallet.connected, name, id]);
-
-  return (
-    <div>
-      <h1 style={{ textAlign: 'center' }}>Welcome {name}</h1>
-      <ConnectButton style={{ textAlign: 'center' }} className="myButton">
-        Connect
-     </ConnectButton>
-    </div>
-  );
-}
-export default App;
+function Wallet
