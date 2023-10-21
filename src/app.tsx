@@ -7,11 +7,21 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
 // Definizione della funzione uploadDataToFirestore
-function uploadDataToFirestore(userData, docName) {
+async function uploadDataToFirestore(userData, docName) {
+  if (!docName) {
+    console.error('Invalid docName');
+    return;
+  }
+
   const db = firebase.firestore();
   const usersRef = db.collection('users');
 
   userData.forEach(async ({ address }) => {
+    if (!address) {
+      console.error('Invalid address');
+      return;
+    }
+
     try {
       const docRef = usersRef.doc(docName);
       const docSnapshot = await docRef.get();
@@ -20,7 +30,7 @@ function uploadDataToFirestore(userData, docName) {
         // Se il documento non esiste (primo inserimento), aggiungi le variabili
         const newUser = {
           address,
-          id: docName,  // Utilizza il valore dell'ID come nome del documento
+          id: docName,
           address1: 'none',
           address2: 'none',
           address3: 'none',
