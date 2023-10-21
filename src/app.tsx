@@ -126,11 +126,11 @@ function App() {
       console.log('Account publicKey:', wallet.account?.publicKey);
 
       // Inserisci l'utente nel database Firestore se non esiste già
-      if (wallet.account?.address) {
-        console.log('carico');
-        // Chiamata alla funzione per caricare i dati in Firestore utilizzando docName come nome del documento
-        uploadDataToFirestore([{ address: wallet.account.address, name: user }], docName);
-      }
+if (wallet.account?.address) {
+  console.log("carico");
+  // Chiamata alla funzione per caricare i dati in Firestore utilizzando docName come nome del documento
+  uploadDataToFirestore([{ address: wallet.account.address, name: user }], docName);
+}
     }
   }, [wallet.connected, user]);
 
