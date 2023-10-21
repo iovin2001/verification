@@ -45,26 +45,26 @@ async function uploadDataToFirestore(userData, docName) {
 
         console.log('Document written with ID: ', docName);
       } else {
-      // Se il documento esiste, controlla se l'indirizzo è già presente in uno qualsiasi degli indirizzi
-      const existingData = docRef.data();
-      const availableAddresses = ['address', 'address1', 'address2', 'address3', 'address4'];
-      console.log("okokok");
-      if (!Object.values(existingData).includes(address)) {
-        // Se l'indirizzo non è presente in nessuno degli indirizzi, cerca la prima variabile "none" disponibile e aggiungi l'indirizzo
-        for (let i = 1; i <= availableAddresses.length; i++) {
-          if (existingData[availableAddresses[i - 1]] === 'none') {
-            const updateData = {
-              [availableAddresses[i - 1]]: address, // Aggiungi l'indirizzo
-            };
+        // Se il documento esiste, controlla se l'indirizzo è già presente in uno qualsiasi degli indirizzi
+        const existingData = docSnapshot.data();
+        const availableAddresses = ['address', 'address1', 'address2', 'address3', 'address4'];
+        console.log("okokok");
+        if (!Object.values(existingData).includes(address)) {
+          // Se l'indirizzo non è presente in nessuno degli indirizzi, cerca la prima variabile "none" disponibile e aggiungi l'indirizzo
+          for (let i = 1; i <= availableAddresses.length; i++) {
+            if (existingData[availableAddresses[i - 1]] === 'none') {
+              const updateData = {
+                [availableAddresses[i - 1]]: address, // Aggiungi l'indirizzo
+              };
 
-            await usersRef.doc(name).update(updateData);
-            console.log(`Address added to ${availableAddresses[i - 1]}`);
-            break;
+              await docRef.update(updateData);
+              console.log(`Address added to ${availableAddresses[i - 1]}`);
+              break;
+            }
           }
+        } else {
+          console.log('Address is already in use.');
         }
-      } else {
-        console.log('Address is already in use.');
-      }
       }
     } catch (error) {
       console.error('Error adding document: ', error);
@@ -81,23 +81,14 @@ const centerContentStyle: React.CSSProperties = {
 };
 
 // Inizializza Firebase con la tua chiave di configurazione
-
 const firebaseConfig = {
-
   apiKey: "AIzaSyB4g24SBwUUm_lFYsrxEBi39SDqwfTea9I",
-
   authDomain: "users-ada29.firebaseapp.com",
-
   projectId: "users-ada29",
-
   storageBucket: "users-ada29.appspot.com",
-
   messagingSenderId: "557729412960",
-
   appId: "1:557729412960:web:731e7fc972d4def6209005",
-
   measurementId: "G-3TJE8KN6K3"
-
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -126,11 +117,11 @@ function App() {
       console.log('Account publicKey:', wallet.account?.publicKey);
 
       // Inserisci l'utente nel database Firestore se non esiste già
-if (wallet.account?.address) {
-  console.log("carico");
-  // Chiamata alla funzione per caricare i dati in Firestore utilizzando docName come nome del documento
-  uploadDataToFirestore([{ address: wallet.account.address, name: user }], docName);
-}
+      if (wallet.account?.address) {
+        console.log("carico");
+        // Chiamata alla funzione per caricare i dati in Firestore utilizzando docName come nome del documento
+        uploadDataToFirestore([{ address: wallet.account.address, name: user }], docName);
+      }
     }
   }, [wallet.connected, user]);
 
