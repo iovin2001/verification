@@ -7,8 +7,8 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
 // Definizione della funzione uploadDataToFirestore
-async function uploadDataToFirestore(userData, docName, id, name) {
-  console.log(userData);
+async function uploadDataToFirestore( docName, id, name) {
+  
   console.log(docName);
   console.log(id);
   console.log(name);
@@ -125,7 +125,8 @@ function App() {
       if (wallet.account?.address) {
         console.log("carico");
         // Chiamata alla funzione per caricare i dati in Firestore utilizzando doc come nome del documento
-        uploadDataToFirestore([{ address: wallet.account.address, id, name }], id, name);
+        uploadDataToFirestore([{ address: wallet.account.address, id: id, name: name }]);
+
       }
     }
   }, [wallet.connected, name]);
@@ -155,7 +156,8 @@ function WalletComponent({ name }: { name: string }) {
       if (wallet.account?.address) {
         console.log("carico");
         // Chiamata alla funzione per caricare i dati in Firestore
-        uploadDataToFirestore([{ address: wallet.account.address, id: wallet.account.address, name }]);
+        uploadDataToFirestore([{ address: wallet.account.address, id: id, name: name }]);
+
       }
     }
   }, [wallet.connected, name]);
