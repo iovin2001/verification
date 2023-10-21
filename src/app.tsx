@@ -161,4 +161,9 @@ function WalletComponent({ name }: { name: string }) {
       <h1 style={{ textAlign: 'center' }}>Welcome {name}</h1>
       <ConnectButton style={{ textAlign: 'center' }} className="myButton">
         Connect
-     
+     </ConnectButton>
+    </div>
+  );
+}
+
+export default App;
