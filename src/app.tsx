@@ -8,9 +8,6 @@ import 'firebase/compat/firestore';
 
 // Definizione della funzione uploadDataToFirestore
 async function uploadDataToFirestore(id, address, name) {
-  console.log(id);
-  console.log(address);
-  console.log(name);
   if (!id || !address || !name) {
     console.error('Invalid data');
     return;
@@ -26,8 +23,8 @@ async function uploadDataToFirestore(id, address, name) {
     if (!docSnapshot.exists) {
       // Se il documento non esiste (primo inserimento), aggiungi le variabili
       const newUser = {
-        id,
         address,
+        id,
         name,
         address1: 'none',
         address2: 'none',
@@ -41,12 +38,12 @@ async function uploadDataToFirestore(id, address, name) {
 
       await docRef.set(newUser);
 
-      console.log('Document written with ID: ', id);
+      console.log('Document written with ID:', id);
     } else {
       // Se il documento esiste, controlla se l'indirizzo è già presente in uno qualsiasi degli indirizzi
       const existingData = docSnapshot.data();
       const availableAddresses = ['address', 'address1', 'address2', 'address3', 'address4'];
-
+      console.log("okokok");
       if (!Object.values(existingData).includes(address)) {
         // Se l'indirizzo non è presente in nessuno degli indirizzi, cerca la prima variabile "none" disponibile e aggiungi l'indirizzo
         for (let i = 1; i <= availableAddresses.length; i++) {
@@ -65,7 +62,7 @@ async function uploadDataToFirestore(id, address, name) {
       }
     }
   } catch (error) {
-    console.error('Error adding document: ', error);
+    console.error('Error adding document:', error);
   }
 }
 
@@ -135,4 +132,31 @@ function App() {
   );
 }
 
-function Wallet
+function WalletComponent({ name }: { name: string }) {
+  const wallet = useWallet();
+
+  useEffect(() => {
+    if (wallet.connected) {
+      console.log('Connected wallet name:', wallet.name);
+      console.log('Account address:', wallet.account?.address);
+      console.log('Account publicKey:', wallet.account?.publicKey);
+      console.log("ok");
+      if (wallet.account?.address) {
+        console.log("carico");
+        // Chiamata alla funzione per caricare i dati in Firestore
+        uploadDataToFirestore(id, wallet.account.address, name);
+      }
+    }
+  }, [wallet.connected, name, id]);
+
+  return (
+    <div>
+      <h1 style={{ textAlign: 'center' }}>Welcome {name}</h1>
+      <ConnectButton style={{ textAlign: 'center' }} className="myButton">
+        Connect
+      </ConnectButton>
+    </div>
+  );
+}
+
+export default App;
