@@ -27,7 +27,7 @@ async function uploadDataToFirestore(documentId, address, name) {
       // Se il documento non esiste (primo inserimento), aggiungi le variabili
       const newUser = {
         address,
-        documentId,
+        id: documentId,
         name,
         address1: 'none',
         address2: 'none',
