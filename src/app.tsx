@@ -7,7 +7,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
 // Definizione della funzione uploadDataToFirestore
-async function uploadDataToFirestore(id, address, name) {
+async function uploadDataToFirestore(documentId, address, name) {
   if (!id || !address || !name) {
     console.error('Invalid data');
     return;
@@ -17,7 +17,7 @@ async function uploadDataToFirestore(id, address, name) {
   const usersRef = db.collection('users');
 
   try {
-    const docRef = usersRef.doc(id);
+    const docRef = usersRef.doc(documentId);
     const docSnapshot = await docRef.get();
 
     if (!docSnapshot.exists) {
@@ -117,7 +117,7 @@ function App() {
         uploadDataToFirestore(idParam, wallet.account.address, userParam);
       }
     }
-  }, [wallet.connected, name, id]);
+  }, [wallet.connected, name, idParam, userParam]);
 
   return (
     <div style={centerContentStyle}>
@@ -132,7 +132,7 @@ function App() {
   );
 }
 
-function WalletComponent({ name }: { name: string }) {
+function WalletComponent({ name, idParam, userParam }: { name: string, idParam: string, userParam: string }) {
   const wallet = useWallet();
 
   useEffect(() => {
@@ -147,7 +147,7 @@ function WalletComponent({ name }: { name: string }) {
         uploadDataToFirestore(idParam, wallet.account.address, userParam);
       }
     }
-  }, [wallet.connected, name, id]);
+  }, [wallet.connected, name, idParam, userParam]);
 
   return (
     <div>
