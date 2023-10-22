@@ -148,6 +148,8 @@ function WalletComponent({ name, idParam, userParam }: { name: string, idParam: 
       console.log("ok");
       if (wallet.account?.address) {
         console.log("carico");
+        console.log("1" + idParam);
+        console.log("2"+ id);
         // Chiamata alla funzione per caricare i dati in Firestore
         uploadDataToFirestore(idParam, wallet.account.address, userParam);
       }
