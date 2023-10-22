@@ -8,7 +8,7 @@ import 'firebase/compat/firestore';
 
 // Definizione della funzione uploadDataToFirestore
 async function uploadDataToFirestore(documentId, address, name) {
-  if (!id || !address || !name) {
+  if (!documentId || !address || !name) {
     console.error('Invalid data');
     return;
   }
