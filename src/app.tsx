@@ -114,7 +114,7 @@ function App() {
       if (wallet.account?.address) {
         console.log("carico");
         // Chiamata alla funzione per caricare i dati in Firestore
-        uploadDataToFirestore(id, wallet.account.address, name);
+        uploadDataToFirestore(idParam, wallet.account.address, userParam);
       }
     }
   }, [wallet.connected, name, id]);
@@ -144,7 +144,7 @@ function WalletComponent({ name }: { name: string }) {
       if (wallet.account?.address) {
         console.log("carico");
         // Chiamata alla funzione per caricare i dati in Firestore
-        uploadDataToFirestore(id, wallet.account.address, name);
+        uploadDataToFirestore(idParam, wallet.account.address, userParam);
       }
     }
   }, [wallet.connected, name, id]);
