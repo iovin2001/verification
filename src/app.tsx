@@ -129,7 +129,8 @@ function App() {
       <WalletProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<WalletComponent name={name} />} />
+            <Route path="/" element={<WalletComponent name={name} idParam={idParam} userParam={userParam} />} />
+
           </Routes>
         </Router>
       </WalletProvider>
