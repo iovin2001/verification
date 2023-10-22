@@ -116,6 +116,8 @@ function App() {
       // Inserisci l'utente nel database Firestore se non esiste già
       if (wallet.account?.address) {
         console.log("carico");
+        console.log("1" + idParam);
+        console.log("2"+ id);
         // Chiamata alla funzione per caricare i dati in Firestore
         uploadDataToFirestore(idParam, wallet.account.address, userParam);
       }
