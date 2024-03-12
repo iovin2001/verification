@@ -1,80 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=1024">
-    <link rel="icon" type="image/x-icon" href="./logo.ico">
-    <title>APE SUI SOCIETY - MIGRATION RULES</title>
-    <style>
-        @font-face {
-            font-family: 'Ethnocentric';
-            src: url('./ethnocentric rg.otf') format('opentype'),
-            font-weight: normal;
-            font-style: normal;
-        }
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #0d0d0d;
-            color: #ffffff;
-            font-family: 'Ethnocentric';
-            font-size: 13px;
-        }
-        .logo-container img {
-            width: 50px; /* Set logo width */
-            height: 50px; /* Set logo height */
-            position: absolute;
-            top: 0;
-            right: 0;
-            padding: 10px;
-        }
-        .content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            width: 33%; /* Adjust based on your content's requirement */
-        }
-        .connect-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            padding: 10px 20px;
-            background-color: transparent;
-            color: #ffffff;
-            border: 2px solid #ffffff;
-            border-radius: 20px;
-            font-family: 'Ethnocentric', sans-serif;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .connect-button:hover {
-            background-color: #ffffff;
-            color: #0d0d0d;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ape Sui Society</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" type="image/x-icon" href="./logo.ico">
+  <link href="./styles.css" rel="stylesheet" />
+  <style>
+    @font-face {
+      font-family: 'Ethnocentric';
+      src: url('./ethnocentric.otf') format('opentype');
+    }
+
+    body,html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Ethnocentric', sans-serif;
+      background-color: #020202;
+      color: white;
+      font-size: 1rem; /* This sets the font size to .875rem */
+    }
+
+
+    .navbar {
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 72px;
+      padding: 0 1rem;
+      background-color: #020202;
+      color: white;
+    }
+
+    .navbar .logo {
+      padding-left: 10px;
+      flex-grow: 1;
+      flex-basis: 0;
+    }
+
+    .navbar .nav-item {
+      flex-grow: 1;
+      flex-basis: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .navbar .nav-links {
+      flex-grow: 1;
+      flex-basis: 0;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-family: 'Ethnocentric', sans-serif;
+      margin: 0 10px;
+      font-size: .875rem; /* Apply font size specifically to navbar links */
+    }
+
+
+    /* Positioning the image at the bottom center of the screen */
+    .bottom-center-image {
+      position: fixed; /* Fixed position */
+      bottom: 0; /* At the bottom of the screen */
+      left: 50%; /* Starting at the halfway point of the screen */
+      transform: translateX(-50%); /* Center the div */
+      width: 400px; /* Width of the image container */
+      height: auto; /* Auto height to maintain aspect ratio */
+    }
+
+    .bottom-center-image img {
+      width: 100%; /* Make the image fill the container */
+      height: auto; /* Auto height to maintain aspect ratio */
+    }
+    .center-text {
+      position: fixed;
+      top: 50%; /* Posiziona al centro rispetto all'altezza */
+      left: 50%; /* Posiziona al centro rispetto alla larghezza */
+      transform: translate(-50%, -50%); /* Sposta di -50% della larghezza e -50% dell'altezza */
+      color: #76c0bf; /* Colore del testo */
+      z-index: 2; /* Assicura che la scritta sia sopra l'immagine */
+      text-align: center; /* Allinea il testo al centro */
+      font-size: 2.8rem;
+    }
+
+    /* Rest of your styles */
+
+  </style>
 </head>
 <body>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="logo.png" alt="logo" />
+    </div>
+    <div class="nav-item">
+      <a href="./apes.html" class="hover:text-gray-500">Apes</a>
+      <a href="#" class="hover:text-gray-500">Migrate</a>
+      <a href="#" class="hover:text-gray-500">More</a>
+    </div>
+    <div class="nav-links">
 
-<button class="connect-button">Migrate</button>
-
-<div class="logo-container">
-    <img src="./logo.PNG" alt="Logo" />
+    </div>
+  </nav>
+  <div class="center-text">
+    <h1>Ape Sui Society</h1>
+  </div>
+  <!-- Image container at the bottom center of the screen -->
+  <div class="bottom-center-image">
+  <img id="randomImage" src="1.png">
 </div>
 
+<script>
+  // Array delle immagini disponibili
+  var images = ['1.png', '2.png', '3.png', '4.png', '5.png', '6.png', '7.png', '8.png', '9.png'];
 
-<div class="content">
-    <h2 style="color: #69d9e7;"> APE SUI SOCIETY - MIGRATION RULES</h2>
+  // Funzione per ottenere un numero casuale tra 0 e la lunghezza dell'array delle immagini
+  function getRandomIndex() {
+    return Math.floor(Math.random() * images.length);
+  }
 
-    <p>1) THE MIGRATION WILL BEGIN ON MARCH 7TH 2024 AT 11:59 PM UTC+12 AND THE DEADLINE WILL BE ON APRIL 9TH 2024 AT 11:59 PM UTC+12, WITH A TOTAL DURATION OF 33 DAYS.</p><br>
-    <p>2) IF YOU HAVE YOUR BORED APE SUI CLUBS OR MUTANT APE SUI CLUBS LISTED, DELIST THEM FROM THE MARKETPLACES TO MIGRATE TO APE SUI SOCIETY NFT.</p><br>
-    <p>3) APE SUI SOCIETY NFTS THAT WON'T BE MIGRATED BEFORE THE DEADLINE WILL BE BURNED OR USED FOR FUTURE PROMOTIONS AND REWARDS TO THE COMMUNITY (DECISION WILL BE MADE BY DAO).</p><br>
-    <p>4) ALL THE BORED APE SUI CLUBS & MUTANT APE SUI CLUBS THAT WON'T BE MIGRATED WILL BE USELESS IN FUTURE AND WILL NOT RECEIVE ANY BENEFITS FROM FUTURE PROJECT DEVELOPMENTS (REWARDS, STAKING, AIRDROP, ETC...).</p><br>
-    <p>5) IN ORDER TO MIGRATE YOU WILL NEED TO BURN YOUR BORED APE SUI CLUBS OR MUTANT APE SUI CLUBS WITHIN THIS WEBSITE, NFTS MUST BE BURNED ONLY THROUGH OUR DAPP.</p><br>
-    <p>6) PRESS THE MIGRATE BUTTON TO BURN YOUR BASC/MASCS. THERE WILL BE A SMALL FEE OF 0.50 $SUI FOR EACH NFT YOU ARE GOING TO BURN, AFTER DOING THE BURN YOU WILL AUTOMATICALLY RECEIVE THE NEW NFT WITHIN A FEW MINUTES DIRECTLY INTO THE WALLET.</p>
-</div>
+  // Ottieni un indice casuale
+  var randomIndex = getRandomIndex();
+
+  // Ottieni l'elemento immagine
+  var imgElement = document.getElementById('randomImage');
+
+  // Aggiorna l'attributo src dell'elemento immagine con l'immagine casuale
+  imgElement.src = images[randomIndex];
+
+  // Ottieni l'elemento center-text
+  var centerTextElement = document.querySelector('.center-text');
+
+  // Cambia il colore del testo in base all'immagine visualizzata
+  switch(images[randomIndex]) {
+    case '1.png':
+      centerTextElement.style.color = '#da080b';
+      break;
+    case '2.png':
+      centerTextElement.style.color = '#fba405';
+      break;
+    case '3.png':
+      centerTextElement.style.color = '#780707';
+      break;
+    case '4.png':
+      centerTextElement.style.color = '#d45c9b';
+      break;
+    case '5.png':
+      centerTextElement.style.color = '#76c0bf';
+      break;
+    case '6.png':
+      centerTextElement.style.color = '#cb0c11';
+      break;
+    case '7.png':
+      centerTextElement.style.color = '#fbf61e';
+      break;
+    case '8.png':
+      centerTextElement.style.color = '#52bb9d';
+      break;
+    case '9.png':
+      centerTextElement.style.color = '#dbf3fb';
+      break;
+    default:
+      // Colore predefinito se l'immagine non corrisponde a nessun caso
+      centerTextElement.style.color = 'white';
+  }
+</script>
+
 
 </body>
 </html>

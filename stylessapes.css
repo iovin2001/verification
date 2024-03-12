@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.gallery img {
+  margin: 5px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  width: calc(100% / 8 - 10px); /* Calcola la larghezza per 8 immagini su una riga */
+  max-width: 200px; /* Imposta la larghezza massima per le immagini */
+}
+
+.gallery img:hover {
+  transform: scale(1.1);
+}
