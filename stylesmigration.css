@@ -1,0 +1,323 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: #fff;
+}
+
+
+@font-face {
+  font-family: 'Ethnocentric';
+  src: url('./ethnocentric.otf') format('opentype');
+}
+
+body,html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Ethnocentric', sans-serif;
+  background-color: #020202;
+  color: white;
+  font-size: 1rem; /* This sets the font size to .875rem */
+}
+
+/* Aggiunta di una linea bianca sotto il link "Migrate" */
+.nav-item a:nth-child(2) {
+  position: relative;
+}
+
+.nav-item a:nth-child(2)::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 15%;
+  width: 70%;
+  height: 2px;
+  background-color: white;
+}
+.navbar {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 72px;
+  padding: 0 1rem;
+  background-color: #020202;
+  color: white;
+}
+
+.navbar .logo {
+  padding-left: 10px;
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.navbar .nav-item {
+  flex-grow: 1;
+  flex-basis: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar .nav-links {
+  flex-grow: 1;
+  flex-basis: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-family: 'Ethnocentric', sans-serif;
+  margin: 0 10px;
+  font-size: .875rem; /* Apply font size specifically to navbar links */
+}
+
+.logo{
+  width: 70px;
+}
+.filter-container {
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 80px;
+  margin-left: 20px;
+}
+
+.transparent-button svg {
+  right:0%;
+}
+.filter-text{
+  font-size: 13px;
+  padding-left: 15px
+}
+.filter-title {
+  flex-grow: 1;
+  text-align: left; /* Allineato a sinistra */
+}
+
+.transparent-button::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 2px; /* Spostato verso il basso di 2px */
+  left: 0;
+  width: 200px;
+  height: 2px; /* Aumentata l'altezza della linea */
+  background-color: rgba(255, 255, 255, 0.4); /* Aumentata l'opacità */
+}
+.transparent-button {
+    margin-top: 10px;
+    margin-left: 20px;
+  font-family: 'Ethnocentric', sans-serif;
+  background: rgba(0, 0, 0, 0.2); /* Sfondo trasparente più scuro */
+  border: none;
+  color: #ffffff; /* Colore del testo bianco */
+  font-size: 14px; /* Dimensioni del testo */
+  cursor: pointer;
+  position: relative;
+  display: flex; /* Per allineare l'icona al centro verticalmente */
+  justify-content: space-between; /* Per allineare l'icona a destra */
+  align-items: center; /* Per allineare l'icona al centro verticalmente */
+  padding: 0 0px;
+
+  padding-left: 20;
+  padding-top: 8px;/* Aggiungere spazio attorno al testo */
+  z-index: 2; /* Assicura che il pulsante sia sopra la barra di navigazione */
+  width: 200px;
+}
+
+
+
+/* Stile per il simbolo "+" */
+.transparent-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Stile per il sottomenu */
+.submenu {
+  position: absolute;
+  top: calc(100% + 5px); /* Sposta il sottomenu sotto il pulsante */
+  left: 50%; /* Centra il sottomenu orizzontalmente */
+  transform: translateX(-50%); /* Centra il sottomenu orizzontalmente */
+  background-color: #333; /* Colore dello sfondo del sottomenu */
+  border-radius: 5px;
+  padding: 5px 0;
+  display: none; /* Nascondi il sottomenu all'inizio */
+  color: #ffffff; /* Colore del testo bianco */
+  z-index: 3; /* Assicura che il sottomenu sia sopra la barra di navigazione */
+}
+
+/* Stile per gli elementi del sottomenu */
+.submenu-item {
+  color: #ffffff;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* Stile per il link "Search" */
+.submenu-item.search {
+  font-weight: bold;
+}
+
+/* Quando il cursore è sopra il pulsante, mostra il sottomenu */
+.transparent-button:hover .submenu {
+  display: block;
+}
+
+
+.custom_input {
+  padding-top: 8px;/* Aggiungere spazio attorno al testo */
+  padding-left: 20px;
+	display: flex;
+	align-items: center;
+	position: relative;
+	max-width: 100%;
+}
+
+.input {
+	font-size: 13px;
+	padding: 6px 10px;
+	width:200px;
+	padding-left: 30px;
+	outline: none;
+	background: #6B7280;
+	color: #FFFFFF;
+	border: 0px solid #6B7280;
+	border-radius: 20px;
+	transition: .3s ease;
+}
+
+.input:focus {
+	background: #6B7280;
+	border: 0px solid #F2F2F2;
+	border-radius: 10px;
+}
+
+.input::placeholder {
+	color: #FFFFFF;
+}
+
+.svg_icon {
+	position: absolute;
+	left: 30px;
+	fill: #FFFFFF;
+	width: 13px;
+	height: 13px;
+}
+/* Stili di base per le immagini */
+.thumbnail {
+  position: relative; /* Posizione relativa per consentire il posizionamento dei numeri */
+  width: 70px; /* Larghezza di ogni immagine */
+  height: 70px; /* Altezza di ogni immagine */
+  margin-right: 10px; /* Spazio tra le immagini */
+  margin-bottom: 10px; /* Spazio tra le immagini */
+  border-radius: 5px; /* Angoli arrotondati per le immagini */
+}
+
+/* Pseudoelemento per i numeri */
+.thumbnail::before {
+  content: attr(data-number);
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Contenitore delle immagini */
+.image-container {
+  position: absolute;
+  top: 70px;
+  right: 0;
+  width: calc(100% - 300px); /* Larghezza massima - larghezza del filter-container */
+  height: 100%; /* Altezza pari a quella del filter-container */
+  overflow-y: auto; /* Barra di scorrimento verticale se necessario */
+  display: flex; /* Layout flex per le righe di immagini */
+  flex-wrap: wrap; /* Consentire il wrapping delle immagini */
+  justify-content: flex-end; /* Allineamento a destra */
+  padding: 20px; /* Spazio intorno alle immagini */
+  box-sizing: border-box; /* Include il padding nell'area totale */
+}
+
+/* Layout delle righe di immagini */
+.image-row {
+  width: 100%; /* Larghezza massima */
+  display: flex; /* Layout flex per allineare le immagini */
+  justify-content: space-between;  /* Allineamento a sinistra */
+  margin-bottom: 20px; /* Spazio tra le righe di immagini */
+}
+.image-container-item {
+  position: relative; /* Aggiungi posizione relativa */
+}
+
+.thumbnail p {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  color: white;
+  font-size: 6px; /* Dimensione del carattere dei numeri */
+  left: 50%;
+  font-weight: bold;
+}
+/* Media query per adattare il numero di immagini per riga */
+@media (max-width: 768px) {
+  .thumbnail {
+    width: 50px; /* Riduci la larghezza delle immagini */
+    height: 50px; /* Riduci l'altezza delle immagini */
+    margin-right: 5px; /* Riduci lo spazio tra le immagini */
+    margin-bottom: 5px; /* Riduci lo spazio tra le immagini */
+  }
+
+  .thumbnail::before {
+    width: 15px; /* Riduci la larghezza del numero */
+    height: 15px; /* Riduci l'altezza del numero */
+    line-height: 15px; /* Altezza della riga per centrare verticalmente il testo */
+    font-size: 10px; /* Dimensione del carattere del numero */
+  }
+  .connect-button{
+    display:none;
+  }
+}
+
+@media (max-width: 576px) {
+  .image-container {
+    width: 100%; /* Larghezza massima */
+    justify-content: center; /* Allinea le immagini al centro */
+    padding: 10px; /* Riduci lo spazio intorno alle immagini */
+  }
+
+  .image-row {
+    justify-content: center; /* Allinea le immagini al centro */
+    margin-bottom: 10px; /* Riduci lo spazio tra le righe di immagini */
+  }
+
+  .thumbnail {
+    width: 40px; /* Riduci ulteriormente la larghezza delle immagini */
+    height: 40px; /* Riduci ulteriormente l'altezza delle immagini */
+    margin-right: 5px; /* Riduci lo spazio tra le immagini */
+    margin-bottom: 5px; /* Riduci lo spazio tra le immagini */
+  }
+
+  .thumbnail::before {
+    width: 10px; /* Riduci ulteriormente la larghezza del numero */
+    height: 10px; /* Riduci ulteriormente l'altezza del numero */
+    line-height: 10px; /* Altezza della riga per centrare verticalmente il testo */
+    font-size: 8px; /* Dimensione del carattere del numero */
+  }
+}
