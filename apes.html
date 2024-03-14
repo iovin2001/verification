@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ape Sui Society - Apes</title>
+  <link rel="icon" type="image/x-icon" href="./logo.ico">
+<link href="./stylessapes.css" rel="stylesheet" />
+<style>
+  /* Stile per il pulsante */
+
+</style>
+</head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ape Sui Society - Apes</title>
+
+<link rel="icon" type="image/x-icon" href="./logo.ico">
+<link href="./stylessapes.css" rel="stylesheet" />
+
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <img src="logo.png" width="60px" alt="logo" />
+    </div>
+    <div class="nav-item">
+      <a href="./apes.html" class="hover:text-gray-500">Apes</a>
+      <a href="#" class="hover:text-gray-500">Migrate</a>
+      <a href="#" class="hover:text-gray-500">More</a>
+    </div>
+    <div class="nav-links"></div>
+  </nav>
+  <div class="filter-container">
+
+    <div class="custom_input">
+        <svg xmlns="http://www.w3.org/2000/svg" class="svg_icon bi-search" viewBox="0 0 16 16"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path></svg>
+        <input class="input" type="text" placeholder="Ape Sui Society #">
+    </div>
+
+
+    <button id="transparentButton" class="transparent-button">
+
+      Background
+      <svg id="plusIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" width="24" height="24">
+        <path d="M6 12H12M12 12H18M12 12V18M12 12V6" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  </button>
+    <button id="transparentButton" class="transparent-button">
+
+      Fur
+
+      <svg id="plusIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" width="24" height="24">
+        <path d="M6 12H12M12 12H18M12 12V18M12 12V6" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  </button>
+    <button id="transparentButton" class="transparent-button">
+
+      Clothes
+
+      <svg id="plusIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" width="24" height="24">
+        <path d="M6 12H12M12 12H18M12 12V18M12 12V6" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button id="transparentButton" class="transparent-button">
+
+      Eyes
+
+      <svg id="plusIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" width="24" height="24">
+        <path d="M6 12H12M12 12H18M12 12V18M12 12V6" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button id="transparentButton" class="transparent-button">
+
+      Mouth
+
+      <svg id="plusIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" width="24" height="24">
+        <path d="M6 12H12M12 12H18M12 12V18M12 12V6" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button id="transparentButton" class="transparent-button">
+
+      Hat
+
+      <svg id="plusIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" width="24" height="24">
+        <path d="M6 12H12M12 12H18M12 12V18M12 12V6" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button id="transparentButton" class="transparent-button">
+
+      Earring
+
+      <svg id="plusIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" width="24" height="24">
+        <path d="M6 12H12M12 12H18M12 12V18M12 12V6" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <!-- Sottomenu
+      <div class="submenu">
+        <div class="submenu-item search">Search</div>
+        <div class="submenu-item">Opzione 1</div>
+        <div class="submenu-item">Opzione 2</div>
+         Aggiungi altre opzioni qui -->
+  </button>
+      </div>
+
+      <div id="imageContainer" class="image-container"></div>
+
+
+<!-- Icona "+" -->
+
+
+<script>
+  // Funzione per calcolare il numero di immagini da visualizzare sulla pagina
+  function calculateNumberOfImages() {
+    var windowWidth = window.innerWidth;
+    if (windowWidth < 576) {
+      // Se la larghezza della finestra è inferiore a 576px, carica sfondo / 150 px immagini per riga
+      return Math.floor(windowWidth / 100);
+    } else {
+      // Altrimenti, carica sfondo / 90 px immagini per riga
+      return Math.floor((windowWidth - 120) / 140);
+    }
+  }
+
+  // Funzione per caricare tutte le immagini
+  function loadAllImages() {
+    var container = document.querySelector(".image-container");
+    var totalImages = 10000; // Modifica questo valore con il numero totale di immagini che vuoi caricare
+    var imagesPerRow = calculateNumberOfImages();
+    var rowCount = Math.ceil(totalImages / imagesPerRow);
+
+    for (var i = 0; i < rowCount; i++) {
+      var row = document.createElement("div");
+      row.classList.add("image-row");
+      for (var j = 1; j <= imagesPerRow; j++) {
+        var imageIndex = i * imagesPerRow + j;
+        if (imageIndex <= totalImages) {
+          var imageContainer = document.createElement("div");
+          imageContainer.classList.add("image-container-item");
+
+          var img = document.createElement("img");
+          img.src = "https://shdw-drive.genesysgo.net/tmPsyPrSsdFpcGx9etB2dJwYEKesPChmyfefis3G3dp/" + imageIndex + ".png";
+          img.alt = "Image " + imageIndex;
+          img.classList.add("thumbnail");
+
+          var paragraph = document.createElement("p");
+          paragraph.textContent = imageIndex;
+
+          imageContainer.appendChild(img);
+          imageContainer.appendChild(paragraph);
+
+          row.appendChild(imageContainer);
+        }
+      }
+      container.appendChild(row);
+    }
+  }
+
+  // Carica tutte le immagini inizialmente
+  loadAllImages();
+</script>
+
+
+
+  </body>
+  </html>
